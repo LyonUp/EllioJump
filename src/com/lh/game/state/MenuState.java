@@ -29,19 +29,19 @@ public class MenuState extends State {
 	@Override
 	public void onClick(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		System.out.println("mouse clicked!");
 	}
 
 	@Override
 	public void onKeyPrewss(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		System.out.println("key Pressed!");
 	}
 
 	@Override
 	public void onKeyRelease(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		System.out.println("key Released!");
 	}
 
 }

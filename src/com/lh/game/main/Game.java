@@ -7,6 +7,7 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
+import com.lh.framework.util.InputHandler;
 import com.lh.game.state.LoadState;
 import com.lh.game.state.State;
 
@@ -20,6 +21,8 @@ public class Game extends JPanel implements Runnable{
 	private Thread gameThread;
 	private volatile boolean running;
 	private volatile State currentState;
+	
+	private InputHandler inputHandler;
 	
 	public Game(int gameWidth, int gameHeight) {
 		
@@ -36,12 +39,14 @@ public class Game extends JPanel implements Runnable{
 		System.gc();
 		newState.init();
 		currentState = newState;
+		inputHandler.setCurrentState(newState);
 	}
 
 	@Override
 	public void addNotify() {
 		// TODO Auto-generated method stub
 		super.addNotify();
+		initInput();
 		setCurrentState(new LoadState());
 		initGame();
 	}
@@ -50,6 +55,12 @@ public class Game extends JPanel implements Runnable{
 		running = true;
 		gameThread = new Thread(this, "Game Thread");
 		gameThread.start();
+	}
+	
+	private void initInput(){
+		inputHandler = new InputHandler();
+		addKeyListener(inputHandler);
+		addMouseListener(inputHandler);
 	}
 
 	@Override
