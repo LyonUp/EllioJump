@@ -16,7 +16,7 @@ public class LoadState extends State {
 	}
 
 	@Override
-	public void update() {
+	public void update(float delta) {
 		// TODO Auto-generated method stub
 		setCurrentState(new MenuState());
 	}

@@ -66,14 +66,18 @@ public class Game extends JPanel implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		long updateDurationMillis = 0;
+		long sleepDurationMillis =0;
 		while(running){
-			currentState.update();
-			prepareGameImage();
-			currentState.render(gameImage.getGraphics());
-			repaint();
+			long beforeUpdateRender = System.nanoTime();
+			long deltaMillis = updateDurationMillis + sleepDurationMillis;
 			
+			updateAndRender(deltaMillis);
+			
+			updateDurationMillis = (System.nanoTime() - beforeUpdateRender) /1000000L ;
+			sleepDurationMillis = Math.max(2, 17 - updateDurationMillis);
 			try{
-				Thread.sleep(14);
+				Thread.sleep(sleepDurationMillis);
 			}catch (InterruptedException e){
 				e.printStackTrace();
 			}
@@ -81,6 +85,13 @@ public class Game extends JPanel implements Runnable{
 		}
 		
 		System.exit(0);
+	}
+
+	private void updateAndRender(long deltaMillis) {
+		currentState.update(deltaMillis / 1000f);
+		prepareGameImage();
+		currentState.render(gameImage.getGraphics());
+		rendGameImage(getGraphics());
 	}
 	
 	private void prepareGameImage(){
@@ -93,15 +104,11 @@ public class Game extends JPanel implements Runnable{
 		running = false ;
 	}
 	
-	@Override
-	protected void paintComponent(Graphics g) {
-		// TODO Auto-generated method stub
-		super.paintComponent(g);
-		
-		if(gameImage == null){
-			return;
+	private void rendGameImage(Graphics g){
+		if (gameImage != null){
+			g.drawImage(gameImage, 0, 0, null);
 		}
-		g.drawImage(gameImage, 0, 0, null);
+		g.dispose();
 	}
 	
 	
