@@ -16,7 +16,7 @@ public abstract class State {
 	
 	public abstract void onClick(MouseEvent e);
 	
-	public abstract void onKeyPrewss(KeyEvent e);
+	public abstract void onKeyPress(KeyEvent e);
 	
 	public abstract void onKeyRelease(KeyEvent e);
 	
